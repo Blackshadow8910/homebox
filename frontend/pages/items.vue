@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { ItemSummary, LabelSummary, LocationOutCount } from "~~/lib/api/types/data-contracts";
+  import type { ItemSummary, LabelSummary, TreeItem } from "~~/lib/api/types/data-contracts";
   import { useLabelStore } from "~~/stores/labels";
   import { useLocationStore } from "~~/stores/locations";
   import MdiLoading from "~icons/mdi/loading";
@@ -71,7 +71,7 @@
     searchLocked.value = true;
     const qLoc = route.query.loc as string[];
     if (qLoc) {
-      selectedLocations.value = locations.value.filter(l => qLoc.includes(l.id));
+      selectedLocations.value = (locationsStore.tree ?? []).filter(l => qLoc.includes(l.id));
     }
 
     const qLab = route.query.lab as string[];
@@ -115,7 +115,7 @@
   const labelStore = useLabelStore();
   const labels = computed(() => labelStore.labels);
 
-  const selectedLocations = ref<LocationOutCount[]>([]);
+  const selectedLocations = ref<TreeItem[]>([]);
   const selectedLabels = ref<LabelSummary[]>([]);
 
   const locIDs = computed(() => selectedLocations.value.map(l => l.id));
@@ -360,18 +360,8 @@
       </div>
 
       <div class="flex w-full flex-wrap gap-2 py-2 md:flex-nowrap">
-        <SearchFilter v-model="selectedLocations" :label="$t('global.locations')" :options="locationFlatTree">
-          <template #display="{ item }">
-            <div>
-              <div class="flex w-full">
-                {{ item.name }}
-              </div>
-              <div v-if="item.name != item.treeString" class="mt-1 text-xs">
-                {{ item.treeString }}
-              </div>
-            </div>
-          </template>
-        </SearchFilter>
+        <SearchTreeFilter v-model="selectedLocations" :label="$t('global.locations')" :options="locationsStore.tree ?? []">
+        </SearchTreeFilter>
         <SearchFilter v-model="selectedLabels" :label="$t('global.labels')" :options="labels" />
         <div class="dropdown">
           <label tabindex="0" class="btn btn-xs">{{ $t("items.options") }}</label>
