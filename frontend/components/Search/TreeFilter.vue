@@ -13,7 +13,6 @@
           :key="v.id"
           :item="v"
           v-model="childrenSelected[i]"
-          class="label flex cursor-pointer justify-between px-4 hover:bg-base-200"
         >
           <template #display>
             <slot name="display">
