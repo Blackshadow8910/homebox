@@ -32,7 +32,7 @@
       <input v-model="isSelected" type="checkbox" :value="item" class="checkbox checkbox-primary checkbox-sm" />
     </div>
     </label>
-    <div v-if="len > 0" :class="{ hidden: collapsed && !hasSearchedChild }" class="pl-2 bg-neutral-300">
+    <div v-if="len > 0" :class="{ hidden: collapsed && !hasSearchedChild }" class="pl-2">
       <TreeFilterItem
       ref="children"
       v-for="(v, i) in item.children"
