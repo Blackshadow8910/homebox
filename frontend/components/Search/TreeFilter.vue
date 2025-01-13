@@ -8,12 +8,7 @@
         <input v-model="search" type="text" placeholder="Search…" class="input input-bordered input-sm mb-2 w-full" />
       </div>
       <div class="max-h-72 divide-y overflow-y-auto">
-        <TreeFilterItem
-          v-for="(v, i) in props.options"
-          :key="v.id"
-          :item="v"
-          v-model="childrenSelected[i]"
-        >
+        <TreeFilterItem v-for="(v, i) in props.options" :key="v.id" v-model="childrenSelected[i]" :item="v">
           <template #display>
             <slot name="display">
               {{ v.name }}
@@ -26,9 +21,9 @@
 </template>
 
 <script setup lang="ts">
+  import TreeFilterItem from "./TreeFilterItem.vue";
   import MdiChevronDown from "~icons/mdi/chevron-down";
   import type { TreeItem } from "~~/lib/api/types/data-contracts";
-  import TreeFilterItem from "./TreeFilterItem.vue";
   type Props = {
     label: string;
     options: TreeItem[];
@@ -72,13 +67,11 @@
   const childrenSelected = ref([]);
 
   const selected = computed<TreeItem[]>(() => {
-      return childrenSelected.value.flat(1);
+    return childrenSelected.value.flat(1);
   });
   const modelValue = useVModel(props, "modelValue", emit);
 
-  watch(selected, (val) => {
-    modelValue.value = val.flat(1)
-  })
+  watch(selected, val => {
+    modelValue.value = val.flat(1);
+  });
 </script>
-
-<style scoped></style>

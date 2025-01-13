@@ -360,7 +360,11 @@
       </div>
 
       <div class="flex w-full flex-wrap gap-2 py-2 md:flex-nowrap">
-        <SearchTreeFilter v-model="selectedLocations" :label="$t('global.locations')" :options="locationsStore.tree ?? []">
+        <SearchTreeFilter
+          v-model="selectedLocations"
+          :label="$t('global.locations')"
+          :options="locationsStore.tree ?? []"
+        >
         </SearchTreeFilter>
         <SearchFilter v-model="selectedLabels" :label="$t('global.labels')" :options="labels" />
         <div class="dropdown">
